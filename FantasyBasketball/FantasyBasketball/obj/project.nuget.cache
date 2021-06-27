@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "qN2uYxdpDfINTUiBg2Y+A1VDyZYcy42fQWF6E+Llp3KIVGy2k1nAAyYbA4gHxl54bjrLe05+nf0gvmi/g/z77g==",
+  "dgSpecHash": "jhEAXnMUwtHa67n6aa65kETBeeMyEef4QrT2oaGPmtLu3AUMTLg3vLg8kwd6Z15Xy/ILxyD1aEOMFACWgEla5g==",
   "success": true,
   "projectFilePath": "C:\\Users\\rekce\\Desktop\\My Projects\\FantasyBasketball\\FantasyBasketball\\FantasyBasketball\\FantasyBasketball\\FantasyBasketball.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\rekce\\.nuget\\packages\\restsharp\\106.11.7\\restsharp.106.11.7.nupkg.sha512"
+  ],
   "logs": []
 }
