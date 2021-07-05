@@ -24,30 +24,32 @@ namespace FantasyBasketball.Data
 
        
         */
-        public int defaultPositionId { get; set; }
-        public bool droppable { get; set; }
-        public List<int> eligibleSlots { get; set; }
-        public string firstName { get; set; }
-        public string fullName { get; set; }
-        public int id { get; set; }
-        public string lastName { get; set; }
+        public string FullName { get; set; }
+        public int Id { get; set; }
+        public bool IsActive { get; set; }
+        public int ProTeamId { get; set; }
         public ownership ownership { get; set; }
-        public int proTeamId { get; set; }
+        public List<int> eligibleSlots { get; set; }
         public int universeId { get; set; }
+        public double SevenDayAvg { get; set; }
+        public double FifteenDayAvg { get; set; }
+        public double SeasonAvg { get; set; }
+        public double ProjectedAvg { get; set; }
+        public double ThirtyDayAvg { get; set; }
 
-        public Player(int defaultPositionId, bool droppable, List<int> eligibleSlots, string firstName, string fullName, int id, string lastName, ownership ownership, int proTeamId, int universeId)
-        {
-            this.defaultPositionId = defaultPositionId;
-            this.droppable = droppable;
-            this.eligibleSlots = eligibleSlots;
-            this.firstName = firstName;
-            this.fullName = fullName;
-            this.id = id;
-            this.lastName = lastName;
-            this.ownership = ownership;
-            this.proTeamId = proTeamId;
-            this.universeId = universeId;
-        }
+        //public Player(int defaultPositionId, bool droppable, List<int> eligibleSlots, string firstName, string fullName, int id, string lastName, ownership ownership, int proTeamId, int universeId)
+        //{
+        //    this.defaultPositionId = defaultPositionId;
+        //    this.droppable = droppable;
+        //    this.eligibleSlots = eligibleSlots;
+        //    this.firstName = firstName;
+        //    this.fullName = fullName;
+        //    this.id = id;
+        //    this.lastName = lastName;
+        //    this.ownership = ownership;
+        //    this.proTeamId = proTeamId;
+        //    this.universeId = universeId;
+        //}
 
     }
 }
