@@ -27,10 +27,9 @@ namespace FantasyBasketball.Data
         public string FullName { get; set; }
         public int Id { get; set; }
         public bool IsActive { get; set; }
-        public int ProTeamId { get; set; }
-        public ownership ownership { get; set; }
-        public List<int> eligibleSlots { get; set; }
-        public int universeId { get; set; }
+        public Team Team { get; set; }
+        public List<LineupSlotID> EligibleSlots { get; set; } = new List<LineupSlotID>();
+        public LineupSlotID LineupSlotID { get; set; }
         public double SevenDayAvg { get; set; }
         public double FifteenDayAvg { get; set; }
         public double SeasonAvg { get; set; }

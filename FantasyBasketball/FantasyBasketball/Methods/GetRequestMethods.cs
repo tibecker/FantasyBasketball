@@ -22,7 +22,7 @@ namespace FantasyBasketball.Methods
         Uri playerInfo = new Uri("https://fantasy.espn.com/apis/v3/games/fba/seasons/2021/players?view=players_wl");
 
 
-        Uri playerInfoTim = new Uri("https://fantasy.espn.com/apis/v3/games/fba/seasons/2021/segments/0/leagues/76211349?rosterForTeamId=2&view=mRoster");
+        Uri playerInfoTim = new Uri("https://fantasy.espn.com/apis/v3/games/fba/seasons/2021/segments/0/leagues/76211349?rosterForTeamId=3&view=mRoster");
 
 
         //public List<Player> GetPlayers()
@@ -58,13 +58,41 @@ namespace FantasyBasketball.Methods
                 string[] tempArray = myArray[i].Split(',');
                 player.FullName = tempArray[0].Substring(1, tempArray[0].Length - 2);
                 player.Id = Convert.ToInt32(tempArray[1].Substring(5));
-                player.IsInjured = Convert.ToBoolean(tempArray[2].Substring(10));
-                player.ProTeamId = Convert.ToInt32(tempArray[12].Substring(12));
+                player.IsActive = !Convert.ToBoolean(tempArray[2].Substring(10));
+                player.Team = (Team)Convert.ToInt32(tempArray[12].Substring(12));
 
                 listOfPlayers.Add(player);
             }
 
+            // Add LineupSlot for each player
+            string[] myLineupArray = rawData.Split("\"lineupSlotId\":");
+            for (int i = 1; i < myLineupArray.Length; i++)
+            {
+                Player player = new Player();
+                string[] tempArray = myLineupArray[i].Split(',');
+                player.LineupSlotID = (LineupSlotID)Convert.ToInt32(tempArray[0]);
+                listOfPlayers[i-1].LineupSlotID = player.LineupSlotID;
+            }
 
+            // Add eligible lineup slots for each player
+            string[] myEligibilityArray = rawData.Split("\"eligibleSlots\":");
+            for (int i = 1; i < myEligibilityArray.Length; i++)
+            {
+                Player player = new Player();
+                string[] tempArray = myEligibilityArray[i].Split("\"firstName\":");
+                string tempString = tempArray[0].Substring(1, tempArray[0].Length - 3);
+                string [] tempStringArray = tempString.Split(',');
+                for (int j = 0; j < tempStringArray.Length; j++)
+                {
+                    int x = Convert.ToInt32(tempStringArray[j]);
+
+                    // Add addtional check to see if player is active.
+                    // If player is active, don't make IR an eligible slot.
+                    if (x == 4 || x == 5 || x ==  6 || x == 11 || x == 12 || x == 13){
+                        listOfPlayers[i - 1].EligibleSlots.Add((LineupSlotID)x);
+                    }
+                }
+            }
 
             return listOfPlayers;
         }
