@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FantasyBasketball.Data;
 using FantasyBasketball.Methods;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -14,7 +15,7 @@ namespace FantasyBasketball
     {
         public static void Main(string[] args)
         {
-            GetRequestMethods.GetRosterData();
+            List<List<Player>> TeamInfo =  GetRequestMethods.GetRosterData();
         }
     }
 }
