@@ -30,6 +30,7 @@ namespace FantasyBasketball.Data
         public Team Team { get; set; }
         public List<LineupSlotID> EligibleSlots { get; set; } = new List<LineupSlotID>();
         public LineupSlotID LineupSlotID { get; set; }
+        public bool IsRookie { get; set; } = false;
         public double SevenDayAvg { get; set; }
         public double FifteenDayAvg { get; set; }
         public double SeasonAvg { get; set; }

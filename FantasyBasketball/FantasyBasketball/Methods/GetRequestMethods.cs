@@ -38,6 +38,8 @@ namespace FantasyBasketball.Methods
         //    return listOfPlayers;
         //}
 
+        // ISSUES ARE CAUSED BY ROOKIES - THEY DON'T HAVE 2020 DATA TO PULL FROM
+
         public List<Player> GetPlayers2()
         {
             Uri uri = playerInfoTim;
@@ -59,19 +61,41 @@ namespace FantasyBasketball.Methods
                 player.FullName = tempArray[0].Substring(1, tempArray[0].Length - 2);
                 player.Id = Convert.ToInt32(tempArray[1].Substring(5));
                 player.IsActive = !Convert.ToBoolean(tempArray[2].Substring(10));
-                player.Team = (Team)Convert.ToInt32(tempArray[12].Substring(12));
+
+                if (player.FullName == "Tyrese Haliburton" || player.FullName == "Anthony Edwards" || player.FullName == "LaMelo Ball" || player.FullName == "Immanuel Quickley")
+                {
+                    player.IsRookie = true;
+                }
 
                 listOfPlayers.Add(player);
             }
 
-            // Add LineupSlot for each player
             string[] myLineupArray = rawData.Split("\"lineupSlotId\":");
             for (int i = 1; i < myLineupArray.Length; i++)
             {
                 Player player = new Player();
                 string[] tempArray = myLineupArray[i].Split(',');
                 player.LineupSlotID = (LineupSlotID)Convert.ToInt32(tempArray[0]);
-                listOfPlayers[i-1].LineupSlotID = player.LineupSlotID;
+                listOfPlayers[i - 1].LineupSlotID = player.LineupSlotID;
+            }
+
+            // Add Pro team for each player
+            string[] myTeamArray = rawData.Split("\"proTeamId\":");
+            for (int i = 1; i < myTeamArray.Length; i = i + 8)
+            {
+                string[] tempArray = null;
+                Player player = new Player();
+                player = listOfPlayers[(i - 1) / 8];
+
+                if (listOfPlayers[((i - 1) / 8)-1].IsRookie)
+                {
+                    tempArray = myTeamArray[i-2].Split(',');
+                }
+                else
+                {
+                    tempArray = myTeamArray[i].Split(',');
+                }
+                player.Team = (Team)Convert.ToInt32(tempArray[0]);
             }
 
             // Add eligible lineup slots for each player
@@ -92,6 +116,23 @@ namespace FantasyBasketball.Methods
                         listOfPlayers[i - 1].EligibleSlots.Add((LineupSlotID)x);
                     }
                 }
+            }
+
+            // Add player averages for each player
+            string[] averagesArray = rawData.Split("\"appliedAverage\":");
+            for (int i= 1; i < averagesArray.Length - 2; i=i + 7)
+            {
+                //// 7 Day Average
+                //string [] temp7DayArray = averagesArray[i].Split(',');
+                //listOfPlayers[(i - 1) / 7].SevenDayAvg = Convert.ToDouble(temp7DayArray[0]);
+
+                //// 15 Day Average
+                //string[] temp15DayArray = averagesArray[i+1].Split(',');
+                //listOfPlayers[(i - 1) / 7].FifteenDayAvg = Convert.ToDouble(temp15DayArray [0]);
+
+                // Season Average
+                string[] tempSeasonArray = averagesArray[i + 3].Split(',');
+                listOfPlayers[(i - 1) / 7].SeasonAvg = Convert.ToDouble(tempSeasonArray[0]);
             }
 
             return listOfPlayers;
