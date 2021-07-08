@@ -14,8 +14,7 @@ namespace FantasyBasketball
     {
         public static void Main(string[] args)
         {
-            GetRequestMethods grm = new GetRequestMethods();
-            grm.GetPlayers2();
+            GetRequestMethods.GetRosterData();
         }
     }
 }
