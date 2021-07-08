@@ -16,6 +16,7 @@ namespace FantasyBasketball
         public static void Main(string[] args)
         {
             List<List<Player>> TeamInfo =  GetRequestMethods.GetRosterData();
+            PostMethods.PostRosterChanges(TeamInfo);
         }
     }
 }

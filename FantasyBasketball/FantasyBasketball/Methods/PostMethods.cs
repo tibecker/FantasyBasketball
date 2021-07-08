@@ -24,12 +24,49 @@ namespace FantasyBasketball.Methods
 
         public static void PostRosterChanges(List<List<Player>> teamInfo)
         {
-            Uri u = timsTeam;
+            Uri u = transaction;
             RestRequest request = new RestRequest(u);
             cc.Add(new Cookie("espn_s2", espn_s2) { Domain = u.Host });
             cc.Add(new Cookie("SWID", SWID) { Domain = u.Host });
             client.CookieContainer = cc;
 
+            //request.AddJsonBody(
+            //    new
+            //    {
+            //        isLeagueManager = false,
+            //        executionType = "EXECUTE",
+            //        scoringPeriod = 147,
+            //        teamId = 4,
+            //        type = "ROSTER", 
+            //    }          
+            //);
+
+            string isLeagueManger = "false";
+            int teamId = 4;
+            string memberId = "{BAA65DF3-CA07-4D36-A785-684BE1CDD9E4}";
+            int scoringPeriodId = 147;
+            string executionType = "EXECUTE";
+            string playerId = "4277811";
+            List<string> type = new List<string>();
+            type.Add("ROSTER");
+            type.Add("LINEUP");
+            int fromLineupSlotId = 12;
+            int toLineupSlotId = 5;
+
+
+
+            request.AddHeader("isLeagueManger", isLeagueManger);
+
+            // Struggling with getting transaction to work
+
+            IRestResponse<string> response = client.Post<string>(request);
+
+            string rawData = response.Data;
+            //string r = "{isLeagueManager:false, executionType:EXECUTE,"id":"03f895e1 - fd1a - 4bec - 8825 - b238c60b0b1f","isActingAsTeamOwner":false,"isLeagueManager":false,"isPending":false,"items":[{"fromLineupSlotId":12,"fromTeamId":0,"isKeeper":false,"overallPickNumber":0,"playerId":4277811,"toLineupSlotId":5,"toTeamId":0,"type":"LINEUP"}],"memberId":"{ BAA65DF3 - CA07 - 4D36 - A785 - 684BE1CDD9E4}
+            //","proposedDate":1625705502255,"rating":0,"scoringPeriodId":147,"skipTransactionCounters":false,"status":"EXECUTED","subOrder":0,"teamId":4,"type":"ROSTER"}";
+
+
+            // {"isLeagueManager":false,"teamId":4,"type":"ROSTER","memberId":"{BAA65DF3-CA07-4D36-A785-684BE1CDD9E4}","scoringPeriodId":147,"executionType":"EXECUTE","items":[{"playerId":4277811,"type":"LINEUP","fromLineupSlotId":12,"toLineupSlotId":5}]}
 
 
         }
