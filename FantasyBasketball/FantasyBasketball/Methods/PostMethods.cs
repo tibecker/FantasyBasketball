@@ -41,7 +41,7 @@ namespace FantasyBasketball.Methods
             //    }          
             //);
 
-            string isLeagueManger = "false";
+            bool isLeagueManger = false;
             int teamId = 4;
             string memberId = "{BAA65DF3-CA07-4D36-A785-684BE1CDD9E4}";
             int scoringPeriodId = 147;
@@ -53,9 +53,13 @@ namespace FantasyBasketball.Methods
             int fromLineupSlotId = 12;
             int toLineupSlotId = 5;
 
+            string the = "";
 
 
-            request.AddHeader("isLeagueManger", isLeagueManger);
+            request.AddJsonBody(isLeagueManger);
+            request.AddJsonBody(teamId);
+            request.AddJsonBody(memberId);
+            request.AddJsonBody(scoringPeriodId);
 
             // Struggling with getting transaction to work
 
