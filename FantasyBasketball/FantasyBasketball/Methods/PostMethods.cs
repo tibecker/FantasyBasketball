@@ -56,12 +56,18 @@ namespace FantasyBasketball.Methods
             string the = "";
 
 
-            request.AddJsonBody(isLeagueManger);
-            request.AddJsonBody(teamId);
-            request.AddJsonBody(memberId);
-            request.AddJsonBody(scoringPeriodId);
+            //request.AddJsonBody(isLeagueManger);
+            //request.AddJsonBody(teamId);
+            //request.AddJsonBody(memberId);
+            //request.AddJsonBody(scoringPeriodId);
 
             // Struggling with getting transaction to work
+
+          
+
+            string t = "{ \"isLeagueManager\":false,\"teamId\":4,\"type\":\"ROSTER\",\"memberId\":\"{BAA65DF3-CA07-4D36-A785-684BE1CDD9E4}\",\"scoringPeriodId\":147,\"executionType\":\"EXECUTE\",\"items\":[{ \"playerId\":4277811,\"type\":\"LINEUP\",\"fromLineupSlotId\":5,\"toLineupSlotId\":12}]}";
+
+            request.AddJsonBody(t);
 
             IRestResponse<string> response = client.Post<string>(request);
 
