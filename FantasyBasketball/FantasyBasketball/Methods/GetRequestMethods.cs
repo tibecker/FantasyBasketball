@@ -27,6 +27,9 @@ namespace FantasyBasketball.Methods
 
         private static List<Uri> listOfURIs = new List<Uri>();
 
+        private static readonly List<string> rookies = new List<string>();
+   
+
         public static List<List<Player>> GetRosterData()
         {
             listOfURIs.Add(mattsTeam);
@@ -35,6 +38,13 @@ namespace FantasyBasketball.Methods
             listOfURIs.Add(timsTeam);
             listOfURIs.Add(samsTeam);
             listOfURIs.Add(claysTeam);
+
+            rookies.Add("Tyrese Haliburton");
+            rookies.Add("LaMelo Ball");
+            rookies.Add("Anthony Edwards");
+            rookies.Add("Immanuel Quickley");
+            rookies.Add("James Wiseman");
+            rookies.Add("Saddiq Bey");
 
             List<List<Player>> listOfTeamInfo = new List<List<Player>>();
 
@@ -59,7 +69,7 @@ namespace FantasyBasketball.Methods
                     player.Id = Convert.ToInt32(tempArray[1].Substring(5));
                     player.IsActive = !Convert.ToBoolean(tempArray[2].Substring(10));
 
-                    if (player.FullName == "Tyrese Haliburton" || player.FullName == "Anthony Edwards" || player.FullName == "LaMelo Ball" || player.FullName == "Immanuel Quickley")
+                    if (rookies.Contains(player.FullName))
                     {
                         player.IsRookie = true;
                     }
@@ -78,6 +88,7 @@ namespace FantasyBasketball.Methods
 
                 // Add Pro team for each player
                 string[] myTeamArray = rawData.Split("\"proTeamId\":");
+                int r = 1;
                 for (int i = 1; i < myTeamArray.Length; i = i + 8)
                 {
                     string[] tempArray = null;
@@ -86,11 +97,17 @@ namespace FantasyBasketball.Methods
 
                     if (listOfPlayers[((i - 1) / 8)].IsRookie)
                     {
-                        tempArray = myTeamArray[i - 2].Split(',');
+                        tempArray = myTeamArray[r].Split(',');
+                        r += 6;
+                        if (player.FullName == "Immanuel Quickley")
+                        {
+                            r--;
+                        }
                     }
                     else
                     {
-                        tempArray = myTeamArray[i].Split(',');
+                        tempArray = myTeamArray[r].Split(',');
+                        r += 8;
                     }
                     player.Team = (Team)Convert.ToInt32(tempArray[0]);
                 }
@@ -118,19 +135,32 @@ namespace FantasyBasketball.Methods
 
                 // Add player averages for each player
                 string[] averagesArray = rawData.Split("\"appliedAverage\":");
-                for (int i = 1; i < averagesArray.Length - 2; i = i + 7)
+                int y = 1;
+                for (int i = 1; i <= averagesArray.Length - 1; i = i + 7)
                 {
-                    //// 7 Day Average
-                    //string [] temp7DayArray = averagesArray[i].Split(',');
-                    //listOfPlayers[(i - 1) / 7].SevenDayAvg = Convert.ToDouble(temp7DayArray[0]);
-
-                    //// 15 Day Average
-                    //string[] temp15DayArray = averagesArray[i+1].Split(',');
-                    //listOfPlayers[(i - 1) / 7].FifteenDayAvg = Convert.ToDouble(temp15DayArray [0]);
-
                     // Season Average
-                    string[] tempSeasonArray = averagesArray[i + 3].Split(',');
+                    string[] tempArray = null;
+                    if (listOfPlayers[((i - 1) / 7)].IsRookie)
+                    {
+                        tempArray = myTeamArray[y].Split(',');
+                        y += 6;
+                    }
+                    else
+                    {
+                        tempArray = myTeamArray[y].Split(',');
+                        y += 7;
+                    }
+
+                    string[] tempSeasonArray = averagesArray[y-4].Split(',');
                     listOfPlayers[(i - 1) / 7].SeasonAvg = Convert.ToDouble(tempSeasonArray[0]);
+                    if (listOfPlayers[((i - 1) / 7)].IsRookie)
+                    {
+                        y--;
+                    }
+                    if (listOfPlayers[((i - 1) / 7)].FullName == "Immanuel Quickley")
+                    {
+                        y--;
+                    }
                 }
                 listOfTeamInfo.Add(listOfPlayers);
             }
